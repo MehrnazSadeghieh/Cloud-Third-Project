@@ -38,7 +38,7 @@ In this project, I will share my experience with the migration from Docker Compo
 - Ensuring data persistence even after host system restarts by leveraging volume spaces with PersistentVolumeClaim and PersistentVolume, based on my personal experience.
 - Creation of a replica set for database deployment pods.
 - Implementation of load balancing between deployment pods, guided by my own experience.
-- CPU and RAM resource limits applied, similar to the first phase.
+- CPU and RAM resource limits applied, similar to other cloud projects.
 
 ## Resources
 
