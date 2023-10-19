@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap
+data:
+  mysql_root_password: root
+  db_host: db
+  db_name: golang
+  server_port: "8000"
+  environment: local

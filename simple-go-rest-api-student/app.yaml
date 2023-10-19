@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: application
+  labels:
+    app: application
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: application
+  template:
+    metadata:
+      labels:
+        app: application
+    spec:
+      containers:
+      - name: application
+        image: mehrnazsa/simple-go-rest-api-student-app
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: db-root-username
+        - name: DB_PASSWORD
+          valueFrom: 
+            secretKeyRef:
+              name: db-secret
+              key: db-root-password
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom: 
+            configMapKeyRef:
+              name: configmap
+              key: mysql_root_password
+        - name: DB_HOST
+          valueFrom: 
+            configMapKeyRef:
+              name: configmap
+              key: db_host
+        - name: DB_NAME
+          valueFrom: 
+            configMapKeyRef:
+              name: configmap
+              key: db_name
+        - name: SERVER_PORT
+          valueFrom: 
+            configMapKeyRef:
+              name: configmap
+              key: server_port
+        - name: ENVIRONMENT
+          valueFrom: 
+            configMapKeyRef:
+              name: configmap
+              key: environment
+
+        resources:
+          limits:
+            cpu: "0.5"    
+            memory: "512Mi"  
+          requests:
+            cpu: "0.1"     
+            memory: "256Mi" 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+spec:
+  selector:
+    app: application
+  type: LoadBalancer  
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+      nodePort: 30000
